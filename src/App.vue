@@ -18,8 +18,12 @@ import { mapGetters, mapActions } from "vuex";
 export default {
   name: "App",
   components: { NavBar, CartModal, LoginModal, SignUpModal },
+  created(){
+    this.trySetUserFromLocalStorage();
+  },
   methods: {
     ...mapActions("cart", ["setCart"]),
+    ...mapActions("users", ["trySetUserFromLocalStorage"]),
     getCart() {
       this.setCart(JSON.parse(localStorage.getItem("cart")) || []);
     },
@@ -35,8 +39,6 @@ export default {
 </script>
 
 <style lang="less">
-@import url("https://fonts.googleapis.com/css2?family=Dosis:wght@300&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Dosis:wght@300&family=Satisfy&display=swap");
 
 #app {
   font-family: "Dosis", sans-serif;
