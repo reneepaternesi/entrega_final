@@ -134,8 +134,9 @@ export default {
 }
 
 .cart-btn {
-  top: 65%;
-  left: 95%;
+  top: 100px;
+  right: 10px;
+  cursor: pointer;
   color: #bebebe;
   border-color: #bebebe;
   outline: none;
