@@ -6,10 +6,7 @@
         :key="product.id"
         :product="product"
       />
-      <!-- TODO: Podría ser mejor utilizar el v-if, así de esta manera no se renderiza el elemento.
-      Con el v-show el elemento siempre se renderiza solamente que se utiliza la propiedad display: none,
-      la cual alguien que sabe un poco podría editar el contenido o ver cosas importantes -->
-      <ProductCard v-show="this.user.isAdmin" :product="newProduct" />
+      <ProductCard v-if="this.user.isAdmin" :product="newProduct" />
     </b-row>
   </b-container>
 </template>

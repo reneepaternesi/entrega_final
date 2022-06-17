@@ -67,8 +67,9 @@
       </b-row>
     </b-form>
     <template #modal-footer="{ cancel }">
-      <!-- TODO: Yo lo que haría es poner el botón de Login a la derecha y el de cerrar a la izquierda. Es una cosita
-      de UX para tener en cuenta nada más. -->
+      <b-button size="sm" variant="secondary" @click="cancel()">
+        Cerrar
+      </b-button>
       <b-button
         size="sm"
         variant="primary"
@@ -76,9 +77,6 @@
         @click.prevent="onSubmit()"
       >
         Login
-      </b-button>
-      <b-button size="sm" variant="secondary" @click="cancel()">
-        Cerrar
       </b-button>
     </template>
   </b-modal>
@@ -88,15 +86,6 @@ import { mapGetters, mapActions } from "vuex";
 
 export default {
   name: "LoginModal",
-  async updated() {
-    //TODO: Esta parte sería mejor hacerla de otra manera ya que ahora cada vez que tipeas una letra se llama al método getUsers, el cual
-    // hace una petición a la api. Podes probar escribiendo rápido algo como "asdasdasdasdadasdadaadsasdasds" y debería salirte un error
-    // en la consola por ese consumo de peticiones.
-    // Capaz te quedó sin querer, porque de paso este método getUsers no tiene mucho sentido llamarlo desde acá, sino más bien cuando se hace
-    // el submit.
-    // Así que lo comento para mostrarte más abajo cómo podríamos hacer para que funcione mejor...
-    // await this.getUsers();
-  },
   data() {
     return {
       form: {
@@ -109,8 +98,7 @@ export default {
       },
     };
   },
-  async mounted(){
-    //TODO: Acá llamamos al servicio que setea los usuarios, así luego en el submit los tendríamos disponibles para hacer los chequeos del login.
+  async mounted() {
     await this.getUsers();
   },
   methods: {
@@ -120,8 +108,7 @@ export default {
         (user) =>
           user.user === this.form.user && user.password === this.form.password
       );
-      //TODO: acá te dejo una manera que puede resultar más práctica de leer para la mayoría de los devs.
-      //(Usando el return y quitando el else)
+
       if (!user) {
         this.$bvToast.toast("Info", {
           title: "No existe cuenta para ese usuario y contraseña. Crea una!",
@@ -129,13 +116,8 @@ export default {
           solid: true,
         });
         return;
-      } 
-      
-      //TODO: Acá deberíamos también guardar el user en el localstorage para luego poder recuperarlo si el cliente hace un f5 sobre la page.
-      // Ahora, si hacemos un f5 perdemos la info del store de vuex y en consecuencia perdemos la info del usuario logueado.
-      // En la corrección te lo dejo armado, vas a poder ver que en la mutation "SET_USER", además de setear la variable del state, también guardo
-      // el user en el localstorage, para luego poder recuperarlo en el hook created() del App.vue, y luego setearlo en el store de vuex.
-      // También agregué una línea en la mutation LOG_OUT, para limpiar el user también en el localstorage.
+      }
+
       this.setUser(user);
       this.$bvToast.toast("Success", {
         title: "Has ingresado a tu cuenta correctamente",
